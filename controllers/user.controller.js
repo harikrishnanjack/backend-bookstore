@@ -1,19 +1,27 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const User = require('../models/user.model')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const db = require('../models');
+const userService = require("../services/user.service");
+const User = db.user;
 
 
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, username } = req.body;
   try {
-    let user = await User.findOne({ email })
-    if (user) {
+    let userEmail = await User.findOne({ email })
+    let userName = await User.findOne({ username })
+    if (userEmail) {
       return res.status(400).json({ message: 'User Already Exist' });
     }
+    if (userName) {
+      return res.status(400).json({ message: 'User Name already exist' });
+    }
+
     user = new User({
       name,
       email,
-      password
+      password,
+      username
     })
     const salt = await bcrypt.genSalt(10)
     user.password = await bcrypt.hash(password, salt)
@@ -64,8 +72,8 @@ exports.loginUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password');
-    res.status(200).json(user);
+    const userData = await userService.getUserById(req.params.id);
+    res.status(200).json(userData);
   } catch (err) {
     res.status(500).json({ message: 'Server Error' });
   }

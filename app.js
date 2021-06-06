@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 require('./routes/user.route')(app)
+require('./routes/book.route')(app)
 
 const PORT = process.env.PORT || 3000;
 
