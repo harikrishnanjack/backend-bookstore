@@ -3,12 +3,9 @@ const bookService = require("../services/book.service");
 
 exports.createBook = async (req, res) => {
     try {
-        const userData = await userService.getUserById(req.userId);
-        console.log(req.userId);
-        console.log(userData);
-
+        const userData = await userService.getUserById(req.user.id);
         const bookData = {
-            addedBy: userData,
+            addedBy: req.user.id,
             bookName: req.body.bookName,
             bookAuthor: req.body.bookAuthor,
             publishYear: req.body.publishYear,
