@@ -8,7 +8,6 @@ const Book = mongoose.model(
             bookName: {
                 type: String,
                 required: true,
-                unique: true
             },
             bookAuthor: {
                 type: String,
