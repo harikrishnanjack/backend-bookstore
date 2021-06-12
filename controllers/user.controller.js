@@ -6,19 +6,19 @@ const { registerSchema, loginSchema } = require('../helpers/validation_helpers')
 const {emailProcessor} = require('../helpers/email_helpers');
 
 
-
-
 const User = db.user;
 const verificationURL = "http://localhost:4000/verification/";
 
 
 exports.registerUser = async (req, res) => {
-  const { name, email, password, username } = req.body;
+  const { password } = req.body;
   try {
     const result = await registerSchema.validateAsync(req.body)
 
     let userEmail = await User.findOne({ email:result.email })
     let userName = await User.findOne({ username :result.username})
+    let userEmail = await User.findOne({ email: result.email })
+    let userName = await User.findOne({ userName: result.username })
     if (userEmail) {
       return res.status(400).json({ message: 'User Already Exist' });
     }
@@ -54,6 +54,7 @@ exports.registerUser = async (req, res) => {
     if (err.message.includes("duplicate key error collection")) {
       message = "this email already has an account";
     }
+
     if (err.isJoi === true) {
       return res.json({
         error: err.message
@@ -99,7 +100,6 @@ exports.verifyUser = async (req, res) => {
 
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
   try {
     const result = await loginSchema.validateAsync(req.body)
     let user = await User.findOne({ email: result.email })
@@ -113,7 +113,7 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'Invalid Credentials' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(result.password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid Credentials' });
     }
@@ -124,9 +124,14 @@ exports.loginUser = async (req, res) => {
     }
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
-      res.status(200).json({ message: "User Logged in", token ,user});
+      res.status(200).json({ message: "User Logged in", token });
     })
   } catch (err) {
+    if (err.isJoi === true) {
+      return res.json({
+        error: err.message
+      })
+    }
     console.error(err.message);
     res.status(500).json({ message: 'Server Error' });
   }

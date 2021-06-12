@@ -5,11 +5,9 @@ const Book = mongoose.model(
     "Book",
     new mongoose.Schema(
         {
-            addedBy: userSchema,
             bookName: {
                 type: String,
                 required: true,
-                unique: true
             },
             bookAuthor: {
                 type: String,
