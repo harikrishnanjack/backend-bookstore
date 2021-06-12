@@ -17,8 +17,7 @@ exports.registerUser = async (req, res) => {
 
     let userEmail = await User.findOne({ email:result.email })
     let userName = await User.findOne({ username :result.username})
-    let userEmail = await User.findOne({ email: result.email })
-    let userName = await User.findOne({ userName: result.username })
+
     if (userEmail) {
       return res.status(400).json({ message: 'User Already Exist' });
     }
