@@ -4,5 +4,6 @@ module.exports = app => {
   router.post('/register', user.registerUser);
   router.post('/login', user.loginUser);
   router.get('/get/:id',user.getUser);
+  router.patch('/verify',user.verifyUser);
   app.use('/api/user', router);
 }
