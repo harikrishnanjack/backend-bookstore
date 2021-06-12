@@ -18,10 +18,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isVerified: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   date: {
     type: Date,
     default: Date.now()
-  }
+  },
 });
 const User = mongoose.model("User", userSchema);
 
