@@ -1,18 +1,20 @@
 const userService = require("../services/user.service");
 const bookService = require("../services/book.service");
+const { bookSchema } = require("../helpers/validation_helpers");
+const multer = require("multer");
 
 exports.createBook = async (req, res) => {
     try {
+        const result = await bookSchema.validateAsync(req.body);
         const userData = await userService.getUserById(req.user.id);
         const bookData = {
             addedBy: req.user.id,
-            bookName: req.body.bookName,
-            bookAuthor: req.body.bookAuthor,
-            publishYear: req.body.publishYear,
-            bookGenre: req.body.bookGenre,
-            bookSynopsis: req.body.bookSynopsis,
-            adaptedTo: req.body.adaptedTo,
-            coverImage: req.body.coverImage
+            bookName: result.bookName,
+            bookAuthor: result.bookAuthor,
+            publishYear: result.publishYear,
+            bookGenre: result.bookGenre,
+            bookSynopsis: result.bookSynopsis,
+            adaptedTo: result.adaptedTo,
         };
         console.log(bookData);
         const response = await bookService.addBook(bookData);
@@ -28,3 +30,4 @@ exports.createBook = async (req, res) => {
         }
     }
 }
+

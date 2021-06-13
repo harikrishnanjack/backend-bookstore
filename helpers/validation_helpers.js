@@ -15,7 +15,16 @@ const loginSchema = Joi.object({
 
 //book validation here
 const bookSchema = Joi.object({
-
+  bookName: Joi.string().required(),
+  bookAuthor: Joi.string().required(),
+  publishYear: Joi.date(),
+  bookGenre: Joi.string().required(),
+  bookSynopsis: Joi.string(),
+  adaptedTo: Joi.array().items(Joi.object({
+    mediaForm: Joi.string(),
+    adaptedName: Joi.string(),
+    adaptedYear: Joi.string()
+  }))
 })
 
 module.exports = {
