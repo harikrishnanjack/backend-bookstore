@@ -1,5 +1,8 @@
 const book = require("../controllers/book.controller");
 const authJwt = require("../middlewares/authJwt");
+const upload = require("../middlewares/upload");
+
+const multer = require('multer');
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -13,6 +16,12 @@ module.exports = function (app) {
     // routes
 
     app.post("/api/user/addbook", [authJwt.verifyToken], book.createBook);
+
+    // image upload
+    app.post("/api/user/single", upload.single("image"), (req, res) => {
+        console.log(req.file);
+        res.send("File Uploaded Successfully");
+    });
 }
 
 
