@@ -15,7 +15,20 @@ module.exports = function (app) {
 
     // routes
 
+    // create book route
     app.post("/api/user/addbook", [authJwt.verifyToken], book.createBook);
+
+    // update book route
+    app.put("/api/user/book/:bookId", [authJwt.verifyToken], book.updateBook);
+
+    // delete book route
+    app.delete("/api/user/book/:bookId", [authJwt.verifyToken], book.deleteBook);
+
+    // get book by id route
+    app.get("/api/user/book/:bookId", [authJwt.verifyToken], book.getBookById);
+
+    // get all books route
+    app.get("/api/user/book/", book.getAllBooks);
 
     // image upload
     app.post("/api/user/single", upload.single("image"), (req, res) => {
