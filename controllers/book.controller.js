@@ -26,7 +26,7 @@ exports.createBook = async (req, res) => {
             adaptedTo: result.adaptedTo,
         };
         console.log(bookData);
-        const response = await bookService.addBook(bookData);
+        const response = await bookService.addBookService(bookData);
         res.status(200).json("New book added to database!");
     } catch(err) {
         if (err.name == "ValidationError") {
@@ -52,15 +52,14 @@ exports.createBook = async (req, res) => {
 exports.updateBook = async (req, res) => {
     try {
         const bookId = req.params.bookId;
-        const result = await bookSchema.validateAsync(req.body);
         const existingBookData = await bookService.getBookByIdService(bookId);
         const updateData = {
-            bookName: result.bookName || existingBookData.bookName,
-            bookAuthor: result.bookAuthor || existingBookData.bookAuthor,
-            publishYear: result.publishYear || existingBookData.publishYear,
-            bookGenre: result.bookGenre || existingBookData.bookGenre,
-            bookSynopsis: result.bookSynopsis || existingBookData.bookSynopsis,
-            adaptedTo: result.adaptedTo || existingBookData.adaptedTo,
+            bookName: req.body.bookName || existingBookData.bookName,
+            bookAuthor: req.body.bookAuthor || existingBookData.bookAuthor,
+            publishYear: req.body.publishYear || existingBookData.publishYear,
+            bookGenre: req.body.bookGenre || existingBookData.bookGenre,
+            bookSynopsis: req.body.bookSynopsis || existingBookData.bookSynopsis,
+            adaptedTo: req.body.adaptedTo || existingBookData.adaptedTo,
         };
 
         const response = await bookService.updateBookService(bookId, updateData);
