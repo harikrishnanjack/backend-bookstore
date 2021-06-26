@@ -7,6 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//mongoose connection
+
 mongoose.connect(`${process.env.MONGO_URI}`, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -26,6 +28,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to server" });
 });
 
+//root for routes
+
 require('./routes/user.route')(app)
 require('./routes/book.route')(app)
 
@@ -34,6 +38,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-
-

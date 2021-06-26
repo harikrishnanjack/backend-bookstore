@@ -16,7 +16,7 @@ module.exports = function (app) {
     // routes
 
     // create book route
-    app.post("/api/user/addbook", [authJwt.verifyToken], book.createBook);
+    app.post("/api/user/addbook", [authJwt.verifyToken],upload.single("coverImage"), book.createBook);
 
     // update book route
     app.put("/api/user/book/:bookId", [authJwt.verifyToken], book.updateBook);
@@ -36,6 +36,3 @@ module.exports = function (app) {
         res.send("File Uploaded Successfully");
     });
 }
-
-
-

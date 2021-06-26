@@ -2,17 +2,19 @@ const userService = require("../services/user.service");
 const bookService = require("../services/book.service");
 const { bookSchema } = require("../helpers/validation_helpers");
 const multer = require("multer");
+const upload = require("../middlewares/upload");
+
 
 /**
  * Create Book controller
- * 
+ *
  * @description create a book entry by user excluding user's review
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  * @return {Promise}
  */
 
-exports.createBook = async (req, res) => {
+exports.createBook =async (req, res) => {
     try {
         const result = await bookSchema.validateAsync(req.body);
         const userData = await userService.getUserById(req.user.id);
@@ -24,10 +26,11 @@ exports.createBook = async (req, res) => {
             bookGenre: result.bookGenre,
             bookSynopsis: result.bookSynopsis,
             adaptedTo: result.adaptedTo,
+            coverImage:req.file.filename
         };
-        console.log(bookData);
+        // console.log(bookData);
         const response = await bookService.addBookService(bookData);
-        res.status(200).json("New book added to database!");
+        res.status(200).json({msg:"New book added to database!",book:response});
     } catch(err) {
         if (err.name == "ValidationError") {
             console.log("Validation Error!");
@@ -42,10 +45,10 @@ exports.createBook = async (req, res) => {
 
 /**
  * Update Book
- * 
+ *
  * @description updating book details entry
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  * @returns {Promise}
  */
 
@@ -74,10 +77,10 @@ exports.updateBook = async (req, res) => {
 
 /**
  * Delete Book
- * 
+ *
  * @description delete book details by id
- * @param {*} req 
- * @param {*} res 
+ * @param {*} req
+ * @param {*} res
  * @returns {Promise}
  */
 
@@ -94,11 +97,11 @@ exports.deleteBook = async (req, res) => {
 
 /**
  * Get Book By Id
- * 
+ *
  * @description Get Book details by book id
- * @param {*} req 
+ * @param {*} req
  * @param {*} res
- * @returns {Promise} 
+ * @returns {Promise}
  */
 
 exports.getBookById = async (req, res) => {
@@ -114,11 +117,11 @@ exports.getBookById = async (req, res) => {
 
 /**
  * Get All Books
- * 
+ *
  * @description Get All books and their details
- * @param {*} req 
+ * @param {*} req
  * @param {*} res
- * @returns {Promise} 
+ * @returns {Promise}
  */
 
 exports.getAllBooks = async (req, res) => {

@@ -9,6 +9,14 @@ const {emailProcessor} = require('../helpers/email_helpers');
 const User = db.user;
 const verificationURL = "http://localhost:4000/verification/";
 
+/**
+ * Signup user controller
+ *
+ * @description create a user
+ * @param {*} req
+ * @param {*} res
+ *
+ */
 
 exports.registerUser = async (req, res) => {
   const { password } = req.body;
@@ -64,6 +72,15 @@ exports.registerUser = async (req, res) => {
   }
 }
 
+/**
+ * Signup verifiying controller
+ *
+ * @description verify a user
+ * @param {*} req
+ * @param {*} res
+ *
+ */
+
 exports.verifyUser = async (req, res) => {
   try {
     const { _id, email } = req.body;
@@ -96,7 +113,14 @@ exports.verifyUser = async (req, res) => {
   }
 }
 
-
+/**
+ * Login user controller
+ *
+ * @description login a user
+ * @param {*} req
+ * @param {*} res
+ *
+ */
 
 exports.loginUser = async (req, res) => {
   try {
@@ -135,6 +159,15 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 }
+
+/**
+ * get user controller
+ *
+ * @description get a user
+ * @param {*} req
+ * @param {*} res
+ *
+ */
 
 exports.getUser = async (req, res) => {
   try {

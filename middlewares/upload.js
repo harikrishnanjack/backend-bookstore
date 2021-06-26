@@ -2,7 +2,7 @@ const multer = require('multer');
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, `${process.env.HOME}/backend-bookstore/images/bookCover/`);
+        cb(null, './images/bookCover/');
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '--' + file.originalname);

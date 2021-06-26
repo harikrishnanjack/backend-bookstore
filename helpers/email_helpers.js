@@ -1,5 +1,13 @@
 const nodemailer = require("nodemailer");
 
+/**
+ * Email helper
+ *
+ * @description create transport
+ *
+ *
+ */
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.ethereal.email',
   port: 587,
@@ -8,6 +16,8 @@ const transporter = nodemailer.createTransport({
     pass: '1bXby7SUxSwTPtmJ3b'
   }
 });
+
+//sending mail
 
 const send = (info) => {
   return new Promise(async (resolve, reject) => {
