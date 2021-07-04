@@ -10,7 +10,7 @@ module.exports = app => {
   //get user by id
   router.get('/get/:id',[authJwt.verifyToken],user.getUser);
   //verify a user
-  router.patch('/verify',user.verifyUser);
+  router.put('/verify',user.verifyUser);
 
   app.use('/api/user', router);
 }

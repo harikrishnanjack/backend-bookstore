@@ -7,7 +7,7 @@ const {emailProcessor} = require('../helpers/email_helpers');
 
 
 const User = db.user;
-const verificationURL = "http://localhost:4000/verification/";
+const verificationURL = "http://localhost:3000/verify/";
 
 /**
  * Signup user controller
@@ -44,16 +44,16 @@ exports.registerUser = async (req, res) => {
       verificationLink: verificationURL + user.id + "/" + result.email,
     });
 
-    const payload = {
-      user: {
-        id: user.id
-      }
-    }
+    // const payload = {
+    //   user: {
+    //     id: user.id
+    //   }
+    // }
 
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
-      if (err) throw err;
-      res.status(200).json({ message: "User Created", token });
-    })
+    // jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
+    //   if (err) throw err;
+      res.status(200).json({ message: "User Created" });
+    // })
 
   } catch (err) {
     let message =

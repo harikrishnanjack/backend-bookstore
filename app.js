@@ -7,6 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.all('*', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  next();
+});
+
 //mongoose connection
 
 mongoose.connect(`${process.env.MONGO_URI}`, {
