@@ -9,7 +9,7 @@ const registerSchema = Joi.object({
 
 const loginSchema = Joi.object({
   email: Joi.string().email().lowercase().required(),
-  password: Joi.string().min(8).required()
+  password: Joi.string().required()
 
 })
 
