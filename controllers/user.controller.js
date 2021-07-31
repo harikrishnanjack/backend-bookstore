@@ -147,7 +147,7 @@ exports.loginUser = async (req, res) => {
     }
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
-      res.status(200).json({ message: "User Logged in", token });
+      res.status(200).json({ message: "User Logged in", token,user});
     })
   } catch (err) {
     if (err.isJoi === true) {
